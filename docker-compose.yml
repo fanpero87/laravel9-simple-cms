@@ -39,14 +39,14 @@ services:
         container_name: laravel-db
         restart: unless-stopped
         environment:
-            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ROOT_HOST: '%'
             MYSQL_DATABASE: '${DB_DATABASE}'
-            MYSQL_USER: '${DB_USERNAME}'
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
             MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ROOT_HOST: '%'
+            MYSQL_USER: '${DB_USERNAME}'
         volumes:
-            - 'sail-mariadb:/var/lib/mysql'
-            - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
+            - ./mysql/data:/var/lib/mysql
+            - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
         ports:
             - 3306:3306
         networks:
@@ -57,5 +57,5 @@ networks:
         driver: bridge
 
 volumes:
-    sail-mariadb:
+    mariadb_data:
         driver: local
